@@ -2,6 +2,8 @@
 {% block body %}
 
 
-{{followers_name}}
+    {% for follower in person.followers.all %}
+        {{follower.username}}
+    {% endfor %}
 
 {% endblock %}

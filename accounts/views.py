@@ -10,7 +10,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('posts:index')
+            return redirect('accounts:login')
     else:
         form = CustomUserCreationForm()
 
@@ -68,15 +68,31 @@ def logout(request):
 def followers(request, username):
     User = get_user_model()
 
-    user = User.objects.get(username=username)
-    followers_list=user.followers.all()
-    followers_name =[]
-
-    for follower in followers_list:
-        follwers_name += User.objects.get(username=follower.username)
-
+    person = User.objects.get(username=username)
 
     context = {
-        'followers_name':followers_name,
+        'person': person,
     }
     return render(request,'accounts/followers.html', context)
+
+    for follower in followers_list:
+        a = User.objects.get(username=follower.username)
+        followers_name.append(a)
+
+
+def followings(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
+
+    context = {
+        'person': person,
+    }
+    return render(request,'accounts/followings.html', context)
+
+def like_posts(request, username):
+    User = get_user_model()
+    user_info = User.objects.get(username=username)
+    context = {
+        'user_info': user_info,
+    }
+    return render(request, 'accounts/like_profile.html', context)

@@ -55,21 +55,18 @@
             </div>
         </div>
 
-        <!--  올린 게시물   -->
+
+        <!-- 좋아요를 누른 게시물 -->
         <div class="row row-cols-3">
-            {% for post in user_info.post_set.all %}
+            {% for post in user_info.like_posts.all %}
 
                 <div class="col">
                     <div class="card">
                         <img src="{{post.image.url}}" alt="">
                     </div>
                 </div>
-            
             {% endfor %}
-        </div>    
-
-
-
+        </div>   
 
     </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 
 
     {% for following in person.followings.all %}
+        <img src="{{following.profile_image.url}}" class="rounded-circle" width="50px" alt="">       
         {{following.username}}
     {% endfor %}
 

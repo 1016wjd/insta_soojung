@@ -6,9 +6,16 @@
           <div>
             <img src="{{post.user.profile_image.url}}" class="rounded-circle" width="50px" alt="">
             &nbsp;
-            <a href="{% url 'accounts:profile' username=post.user%}" class="text-reset text-decoration-none"  style="font-weight: 600;" >{{post.user}}</a> 
+            <a href="{% url 'accounts:profile' username=post.user%}" class="text-reset text-decoration-none"  style="font-weight: 600; font-size: large;" >{{post.user}}</a> 
+            
+            {% if user != post.user %}
+                  {% if post.user in user.followings.all %}
+                  {% else %}
+                      <a href="{% url 'accounts:follow' username=post.user %}" class="btn btn-primary">팔로우</a>
+                  {% endif %}  
+            {% endif %}
           </div>
-          <div>
+          <div style = "padding: 5px">
             {% if user == post.user %}
               <a href="{% url 'posts:delete' post_id=post.id %}" class="btn btn-outline-secondary">delete</a>
             {% endif %}
@@ -20,20 +27,24 @@
         </div>
       </div>
     
-    <img src="{{post.image.url}}" alt="...">
+    <img src="{{post.image.url}}" alt="..." >
     <div class="card-body">
-      <a href="{% url 'posts:like' post_id=post.id %}" class="text-reset text-decoration-none">
-          {% if post in user.like_posts.all %}
-          <i class="bi bi-heart-fill" style="color: red"></i> 
-          {% else %}
-          <i class="bi bi-heart"></i> 
-          {% endif %}
-      </a>{{post.like_users.all|length}} 명이 좋아합니다. 
-
-      
-        
-      <p class="card-text">{{post.content}}</p>
-      <p class="card-text">{{post.created_at|timesince}}</p>
+      <div class="d-flex justify-content-between">
+        <div>
+          <a href="{% url 'posts:like' post_id=post.id %}" class="text-reset text-decoration-none">
+              {% if post in user.like_posts.all %}
+              <i class="bi bi-heart-fill" style="color: red"></i> 
+              {% else %}
+              <i class="bi bi-heart"></i> 
+              {% endif %}
+          </a>
+        </div> 
+        <div> {{post.created_at|timesince}} </div>
+      </div>
+      좋아요 {{post.like_users.all|length}}개
+      <div style = "margin: 10px 0px;">{{post.content}}</div>
+      <!-- <p class="card-text">{{post.content}}</p> -->
+      <!-- <p class="card-text">{{post.created_at|timesince}}</p> -->
       <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
     </div>
 
@@ -46,7 +57,7 @@
           <input type="submit">
         </form>
       {% endif %}
-
+   
       <hr>
 
       {% for comment in post.comment_set.all %}
@@ -54,7 +65,7 @@
           <div> - {{comment.user}}: {{comment.content}} </div>
           <div>
             {% if comment.user == user %}
-              <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}" class="text-decoration-none">삭제</a> 
+              <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}" class="text-reset text-decoration-none">X</a> 
             {% endif %}
           </div>
         </div>

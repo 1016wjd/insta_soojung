@@ -3,6 +3,7 @@
 
 
     {% for follower in person.followers.all %}
+        <img src="{{follower.profile_image.url}}" class="rounded-circle" width="50px" alt="">       
         {{follower.username}}
     {% endfor %}
 
